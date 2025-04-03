@@ -1,0 +1,108 @@
+/* Basic Body Styling */
+body {
+    font-family: sans-serif;
+    padding: 20px;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Container for Buttons */
+.button-container {
+    margin-bottom: 20px;
+}
+
+/* General Button Styling */
+button {
+    padding: 12px 25px;
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific Button Styles */
+.buttonBlue {
+    background-color: #007bff; /* Blue */
+}
+.buttonBlue:hover {
+    background-color: #0056b3; /* Darker Blue */
+}
+.buttonBlue:active {
+    transform: scale(0.98); /* Slight shrink on click */
+}
+
+.buttonYellow {
+    background-color: #e9ca3f; /* Red */
+}
+.buttonYellow:hover {
+    background-color: #9c5a0e; /* Darker Gray */
+}
+.buttonYellow:active {
+    transform: scale(0.98); /* Slight shrink on click */
+}
+
+.buttonGreen {
+    background-color: #20d66c; /* Red */
+}
+.buttonGreen:hover {
+    background-color: #0e7920; /* Darker Gray */
+}
+.buttonGreen:active {
+    transform: scale(0.98); /* Slight shrink on click */
+}
+
+/* Formula Container Styling */
+#formulaContainer {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    min-height: 50px; /* Ensure it's visible even when empty */
+    line-height: 2.5; /* Increase line height for fractions */
+}
+
+/* Fraction Styling */
+.fraction {
+    display: inline-flex; /* Use flexbox for alignment */
+    flex-direction: column; /* Stack numerator and denominator */
+    text-align: center;
+    vertical-align: middle; /* Align fraction with surrounding text */
+    margin: 0 0.2em; /* Space around the fraction */
+    position: relative; /* Needed for fine-tuning alignment if required */
+    top: -0.1em; /* Minor vertical adjustment if needed */
+}
+
+.numerator {
+    display: block; /* Ensure it takes full width */
+    border-bottom: 1.5px solid black; /* The fraction line */
+    padding: 0 0.1em 1px 0.1em; /* Space around numerator and above line */
+    font-size: 0.9em; /* Slightly smaller font */
+}
+
+.denominator {
+    display: block; /* Ensure it takes full width */
+    padding: 1px 0.1em 0 0.1em; /* Space around denominator and below line */
+    font-size: 0.9em; /* Slightly smaller font */
+}
+
+/* Style for each formula line */
+.formula-line {
+    margin-bottom: 10px; /* Space between formula lines */
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee; /* Optional separator */
+}
+.formula-line:last-child {
+    border-bottom: none; /* Remove border from last line */
+}
+
+.bold {
+    font-weight: bold;
+    /* font-size: 20px; */
+}
