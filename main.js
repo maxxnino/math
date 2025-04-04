@@ -94,6 +94,46 @@ function getRandomFraction(low_num, high_num, low_den, high_den) {
     return fraction.toHtmlString();
 }
 
+function getRandomFractionAndSign(low, high) {
+    const sign1 = [1, -1].getRandom();
+    const sign2 = [1, -1].getRandom();
+    const fraction = new Fraction(getRandomInt(sign1 * low, sign1 * high), getRandomInt(sign2 * low, sign2 * high));
+    return fraction.toHtmlString();
+}
+
+function getRandomFractionXAndSign(low, high) {
+    const sign1 = [1, -1].getRandom();
+    const sign2 = [1, -1].getRandom();
+    const fraction = new Fraction(getRandomInt(sign1 * low, sign1 * high), getRandomInt(sign2 * low, sign2 * high));
+    let denominator = fraction.denominator;
+    if (fraction.denominator == -1) {
+        denominator = "-";
+    } else if (fraction.denominator == 1) {
+        denominator = "";
+    }
+    return `<span class="fraction"><span class="numerator">${fraction.numerator}</span><span class="denominator">${denominator}x</span></span>`;
+}
+
+function getRandomXFractionAndSign(low, high) {
+    const sign1 = [1, -1].getRandom();
+    const sign2 = [1, -1].getRandom();
+    const fraction = new Fraction(getRandomInt(sign1 * low, sign1 * high), getRandomInt(sign2 * low, sign2 * high));
+    let numerator = fraction.numerator;
+    const is_remove_denominator = Math.abs(fraction.denominator) === 1 ? true : false;
+    if (is_remove_denominator) {
+        numerator *= fraction.denominator;
+    }
+    if (fraction.numerator == -1) {
+        numerator = "-";
+    } else if (fraction.numerator == 1) {
+        numerator = "";
+    }
+    if (is_remove_denominator) {
+        return `${numerator}x`;
+    }
+    return `<span class="fraction"><span class="numerator">${numerator}x</span><span class="denominator">${fraction.denominator}</span></span>`;
+}
+
 function getRandomFractionX(low_num, high_num, low_den, high_den) {
     const fraction = new Fraction(getRandomInt(low_num, high_num), getRandomInt(low_den, high_den));
     let denominator = fraction.denominator;
@@ -108,87 +148,83 @@ function getRandomFractionX(low_num, high_num, low_den, high_den) {
 function getRandomXFraction(low_num, high_num, low_den, high_den) {
     const fraction = new Fraction(getRandomInt(low_num, high_num), getRandomInt(low_den, high_den));
     let numerator = fraction.numerator;
+    const is_remove_denominator = Math.abs(fraction.denominator) === 1 ? true : false;
+    if (is_remove_denominator) {
+        numerator *= fraction.denominator;
+    }
     if (fraction.numerator == -1) {
         numerator = "-";
     } else if (fraction.numerator == 1) {
         numerator = "";
     }
+    if (is_remove_denominator) {
+        return `${numerator}x`;
+    }
     return `<span class="fraction"><span class="numerator">${numerator}x</span><span class="denominator">${fraction.denominator}</span></span>`;
-}
-
-function randomNumberWithX(low_num, high_num) {
-    return `${getRandomInt(low_num, high_num)}x`;
 }
 
 const Level = [
     () => {
-        for (const sign of Signs) {
+        for (const sign of Signs.shuffle()) {
             formulas.push(
-                `${getRandomInt(1, 50)} ${sign} ${getRandomInt(1, 50)}`,
-                `${getRandomInt(-1, -50)} ${sign} ${getRandomInt(1, 50)}`,
-                `${getRandomInt(1, 50)} ${sign} ${getRandomInt(-1, -50)}`,
-                `${getRandomInt(-1, -50)} ${sign} ${getRandomInt(-1, -50)}`,
-
-                `${getRandomInt(1, 50)} ${sign} ${getRandomInt(1, 50)}`,
-                `${getRandomInt(-1, -50)} ${sign} ${getRandomInt(1, 50)}`,
-                `${getRandomInt(1, 50)} ${sign} ${getRandomInt(-1, -50)}`,
-                `${getRandomInt(-1, -50)} ${sign} ${getRandomInt(-1, -50)}`
+                `${getRandomInt(1, 10)} ${sign} ${getRandomInt(1, 10)}`,
+                `${getRandomInt(-1, -10)} ${sign} ${getRandomInt(1, 10)}`,
+                `${getRandomInt(1, 10)} ${sign} ${getRandomInt(-1, -10)}`,
+                `${getRandomInt(-1, -10)} ${sign} ${getRandomInt(-1, -10)}`,
+                `${getRandomInt(-1, -10)} ${sign} ${getRandomInt(1, 10)}`,
+                `${getRandomInt(1, 10)} ${sign} ${getRandomInt(-1, -10)}`,
+                `${getRandomInt(-1, -10)} ${sign} ${getRandomInt(-1, -10)}`
             );
         }
     },
     () => {
-        for (const sign of Signs) {
+        for (const sign of Signs.shuffle()) {
             formulas.push(
-                `${getRandomFraction(1, 50, 2, 10)} ${sign} ${getRandomFraction(1, 50, 2, 10)}`,
-                `${getRandomFraction(-50, -1, 2, 10)} ${sign} ${getRandomFraction(1, 50, 2, 10)}`,
-                `${getRandomFraction(1, 50, 2, 10)} ${sign} ${getRandomFraction(1, 50, -10, -2)}`,
-                `${getRandomFraction(1, 50, -10, -2)} ${sign} ${getRandomFraction(-50, -1, 2, 10)}`
+                `${getRandomFraction(1, 10, 1, 10)} ${sign} ${getRandomFraction(1, 10, 1, 10)}`,
+                `${getRandomFraction(-10, -1, 1, 10)} ${sign} ${getRandomFraction(1, 10, 1, 10)}`,
+                `${getRandomFraction(1, 10, 1, 10)} ${sign} ${getRandomFraction(1, 10, -10, -1)}`,
+                `${getRandomFraction(1, 10, -10, -1)} ${sign} ${getRandomFraction(-10, -1, 1, 10)}`
             );
         }
     },
     () => {
-        formulas.push(
-            `${getRandomInt(2, 20)}x = ${getRandomInt(2, 100)}`,
-            `${getRandomInt(-2, -20)}x = ${getRandomInt(2, 100)}`,
-            `${getRandomInt(-2, -20)}x = ${getRandomInt(-2, -100)}`,
-
-            `${getRandomInt(2, 100)}x = ${getRandomInt(2, 100)}`,
-            `${getRandomInt(2, 100)}x = ${getRandomInt(-2, -100)}`,
-            `${getRandomInt(-2, -20)}x = ${getRandomInt(-2, -100)}`,
-
-            `${getRandomInt(2, 20)} = ${getRandomInt(2, 100)}x`,
-            `${getRandomInt(2, 20)} = ${getRandomInt(-2, -100)}x`,
-            `${getRandomInt(-2, -100)} = ${getRandomInt(-2, -20)}x`,
-
-            `${getRandomInt(2, 100)} = ${getRandomInt(2, 100)}x`,
-            `${getRandomInt(-2, -100)} = ${getRandomInt(2, 100)}x`,
-            `${getRandomInt(-2, -100)} = ${getRandomInt(-2, -20)}x`
-        );
+        const getValues = () => [
+            [getRandomInt(2, 10), getRandomInt(2, 10)],
+            [getRandomInt(-2, -10), getRandomInt(2, 10)],
+            [getRandomInt(2, 10), getRandomInt(-2, -10)],
+            [getRandomInt(-2, -10), getRandomInt(-2, -10)],
+        ];
+        for (value of getValues()) {
+            formulas.push(`${value[0]}x = ${value[1] * Math.abs(value[0])}`);
+        }
+        for (value of getValues()) {
+            formulas.push(`${value[1] * Math.abs(value[0])} = ${value[0]}x`);
+        }
     },
     () => {
-        for (const sign of Signs) {
+        for (const sign of Signs.shuffle()) {
             formulas.push(
-                `${getRandomXFraction(1, 20, 1, 20)} ${sign} ${getRandomFraction(1, 20, 1, 20)} = ${getRandomFraction(
+                `${getRandomXFraction(1, 10, 1, 10)} ${sign} ${getRandomFraction(1, 10, 1, 10)} = ${getRandomFraction(
                     1,
-                    50,
+                    10,
                     2,
                     10
                 )}`,
-                `${getRandomFraction(1, 20, 1, 20)} ${sign} ${getRandomXFraction(1, 20, 1, 20)} = ${getRandomFraction(
+                `${getRandomFraction(1, 10, 1, 10)} ${sign} ${getRandomXFraction(1, 10, 1, 10)} = ${getRandomFraction(
                     1,
-                    50,
+                    10,
                     2,
                     10
                 )}`,
-                `${getRandomFractionX(1, 20, 1, 20)} ${sign} ${getRandomFraction(1, 20, 1, 20)} = ${getRandomFraction(
+                `${getRandomFractionX(1, 10, 1, 10)} ${sign} ${getRandomFraction(1, 10, 1, 10)} = ${getRandomFraction(
                     1,
-                    50,
+                    10,
                     2,
                     10
                 )}`,
-                `${getRandomFraction(1, 20, 1, 20)} ${sign} ${getRandomFractionX(1, 20, 1, 20)} = ${getRandomFraction(
+                `${getRandomFraction(1, 10, 1, 10)} ${sign} ${getRandomFractionX(1, 10, 1, 10)} = ${getRandomFraction(
                     1,
-                    50,
+                    10,
                     2,
                     10
                 )}`
@@ -196,32 +232,32 @@ const Level = [
         }
     },
     () => {
-        for (const sign of Signs) {
+        for (const sign of Signs.shuffle()) {
             formulas.push(
-                `${getRandomXFraction(-20, -1, 1, 20)} ${sign} ${getRandomFraction(
+                `${getRandomXFraction(-10, -1, 1, 10)} ${sign} ${getRandomFraction(
                     -1,
-                    -20,
+                    -10,
                     1,
-                    20
-                )} = ${getRandomFraction(1, 50, 2, 10)}`,
-                `${getRandomFraction(-20, -1, 1, 20)} ${sign} ${getRandomXFraction(
+                    10
+                )} = ${getRandomFraction(1, 10, 2, 10)}`,
+                `${getRandomFraction(-10, -1, 1, 10)} ${sign} ${getRandomXFraction(
                     1,
-                    20,
+                    10,
                     -1,
-                    -20
-                )} = ${getRandomFraction(1, 50, 2, 10)}`,
-                `${getRandomFractionX(1, 20, -1, -20)} ${sign} ${getRandomFraction(
+                    -10
+                )} = ${getRandomFraction(1, 10, -2, -10)}`,
+                `${getRandomFractionX(1, 10, -1, -10)} ${sign} ${getRandomFraction(
                     -1,
-                    -20,
+                    -10,
                     1,
-                    20
-                )} = ${getRandomFraction(1, 50, 2, 10)}`,
-                `${getRandomFraction(1, 20, -1, -20)} ${sign} ${getRandomFractionX(
+                    10
+                )} = ${getRandomFraction(1, 10, 2, 10)}`,
+                `${getRandomFraction(1, 10, -1, -10)} ${sign} ${getRandomFractionX(
                     -1,
-                    -20,
+                    -10,
                     1,
-                    20
-                )} = ${getRandomFraction(1, 50, 2, 10)}`
+                    10
+                )} = ${getRandomFraction(1, 10, -2, -10)}`
             );
         }
     },
@@ -231,45 +267,88 @@ const Level = [
         });
     },
     () => {
-        for (const sign of Signs) {
+        for (const sign of Signs.shuffle()) {
             const pair = undivisible
                 .getRandom()
                 .shuffle()
                 .map((x) => x ** 2);
             const x = new Fraction(pair[0], pair[1]);
-            const y = new Fraction(getRandomInt(2, 20), getRandomInt(2, 20));
+            const y = new Fraction(getRandomInt(2, 10), getRandomInt(2, 10));
             const z = SignOperator[sign](x, y);
-            formulas.push(`x${Squared} ${sign} ${y.toHtmlString()} = ${z.toHtmlString()}`);
+            const values = [`x${Squared} ${sign} ${y.toHtmlString()}`, z.toHtmlString()].shuffle();
+            formulas.push(`${values[0]} = ${values[1]}`);
         }
-        for (const sign of Signs) {
+        for (const sign of Signs.shuffle()) {
             const pair = undivisible
                 .getRandom()
                 .shuffle()
                 .map((x) => x ** 2);
             const x = new Fraction(pair[0], pair[1]);
-            const y = new Fraction(getRandomInt(2, 20), getRandomInt(2, 20));
-            const z = SignOperator[sign](x, y);
-            formulas.push(`${z.toHtmlString()} = x${Squared} ${sign} ${y.toHtmlString()}`);
-        }
-        for (const sign of Signs) {
-            const pair = undivisible
-                .getRandom()
-                .shuffle()
-                .map((x) => x ** 2);
-            const x = new Fraction(pair[0], pair[1]);
-            const y = new Fraction(getRandomInt(2, 20), getRandomInt(2, 20));
+            const y = new Fraction(getRandomInt(2, 10), getRandomInt(2, 10));
             const z = SignOperator[sign](y, x);
-            formulas.push(`${y.toHtmlString()} ${sign} x${Squared} = ${z.toHtmlString()}`);
+            const values = [`${y.toHtmlString()} ${sign} x${Squared}`, z.toHtmlString()].shuffle();
+            formulas.push(`${values[0]} = ${values[1]}`);
         }
-        for (const sign of Signs) {
-            const pair = undivisible
-                .getRandom()
-                .shuffle()
-                .map((x) => x ** 2);
-            const x = new Fraction(pair[0], pair[1]);
-            const y = new Fraction(getRandomInt(2, 20), getRandomInt(2, 20));
-            const z = SignOperator[sign](y, x);
-            formulas.push(`${z.toHtmlString()} = ${y.toHtmlString()} ${sign} x${Squared}`);
+    },
+    () => {
+        for (const sign1 of Signs.shuffle()) {
+            for (const sign2 of Signs.cloneShuffle()) {
+                const values = [
+                    Math.random() > 0.5 ? getRandomFractionXAndSign(1, 10) : getRandomXFractionAndSign(1, 10),
+                    getRandomFractionAndSign(1, 10),
+                    getRandomFractionAndSign(1, 10),
+                    getRandomFractionAndSign(1, 10),
+                    getRandomFractionAndSign(1, 10),
+                    getRandomFractionAndSign(1, 10),
+                ].shuffle();
+                formulas.push(
+                    `${values[0]} ${sign1} ${values[1]} ${sign2} ${values[2]} ${sign1} ${values[3]} = ${values[4]} ${sign2} ${values[5]}`
+                );
+            }
+        }
+    },
+    () => {
+        for (const sign of Signs.shuffle()) {
+            for (const sign2 of Signs.shuffle()) {
+                const pair = undivisible
+                    .getRandom()
+                    .shuffle()
+                    .map((x) => x ** 2);
+                const x = new Fraction(pair[0], pair[1]);
+                const y = new Fraction(getRandomInt(2, 10), getRandomInt(2, 10));
+                const z = SignOperator[sign](x, y);
+                const squared_value = [
+                    Math.random() > 0.5 ? getRandomFractionXAndSign(1, 10) : getRandomXFractionAndSign(1, 10),
+                    getRandomFractionAndSign(1, 10),
+                ].shuffle();
+                const values = [
+                    `(${squared_value[0]} ${sign2} ${squared_value[1]})${Squared} ${sign} ${y.toHtmlString()}`,
+                    z.toHtmlString(),
+                ].shuffle();
+                formulas.push(`${values[0]} = ${values[1]}`);
+            }
+        }
+    },
+    () => {
+        for (const sign of Signs.shuffle()) {
+            for (const sign2 of Signs.shuffle()) {
+                const pair = undivisible
+                    .getRandom()
+                    .shuffle()
+                    .map((x) => x ** 2);
+                const x = new Fraction(pair[0], pair[1]);
+                const y = new Fraction(getRandomInt(2, 10), getRandomInt(2, 10));
+                const z = SignOperator[sign](x, y);
+                const squared_value = [
+                    Math.random() > 0.5 ? getRandomFractionXAndSign(1, 10) : getRandomXFractionAndSign(1, 10),
+                    getRandomFractionAndSign(1, 10),
+                ].shuffle();
+                const values = [
+                    `${y.toHtmlString()} ${sign} (${squared_value[0]} ${sign2} ${squared_value[1]})${Squared}`,
+                    z.toHtmlString(),
+                ].shuffle();
+                formulas.push(`${values[0]} = ${values[1]}`);
+            }
         }
     },
 ];
@@ -339,6 +418,9 @@ class Fraction {
     }
 
     toHtmlString() {
+        if (Math.abs(this.denominator) === 1) {
+            return `${this.numerator * this.denominator}`;
+        }
         return `<span class="fraction"><span class="numerator">${this.numerator}</span><span class="denominator">${this.denominator}</span></span>`;
     }
 
@@ -418,6 +500,15 @@ Array.prototype.shuffle = function () {
         [this[i], this[j]] = [this[j], this[i]]; // Swap elements
     }
     return this; // Return shuffled array
+};
+
+Array.prototype.cloneShuffle = function () {
+    const copy_array = [...this];
+    for (let i = copy_array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+        [copy_array[i], copy_array[j]] = [copy_array[j], copy_array[i]]; // Swap elements
+    }
+    return copy_array; // Return shuffled array
 };
 
 showExcercise();
